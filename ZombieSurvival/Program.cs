@@ -6,7 +6,8 @@ namespace ZombieSurvival
   {
     static void Main(string[] args)
     {
-      Console.WriteLine("Hello World!");
+      var core = new Core();
+      core.Run();
     }
   }
 }
