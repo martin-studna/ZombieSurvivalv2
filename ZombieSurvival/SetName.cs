@@ -27,8 +27,6 @@ namespace ZombieSurvival
       if (ButtonPressed(window, inputState, ref mode))
         return;
 
-      
-   
       ChangeButtonColor(inputState);
     }
 
