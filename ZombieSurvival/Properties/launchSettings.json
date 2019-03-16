@@ -1,0 +1,10 @@
+{
+  "profiles": {
+    "ZombieSurvival": {
+      "commandName": "Project",
+      "environmentVariables": {
+        "Key": "Value"
+      }
+    }
+  }
+}

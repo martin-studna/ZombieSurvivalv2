@@ -1,4 +1,5 @@
-﻿using System.IO;
+﻿using System.Collections.Generic;
+using System.IO;
 using SFML.Graphics;
 using SFML.System;
 
@@ -6,7 +7,7 @@ namespace ZombieSurvival
 {
   public static class Score
   {
-    public static Text[] Results { get; set; }
+    public static List<Text> Results { get; set; }
     public static RectangleShape Exit { get; set; }
     public static Text ExitText { get; set; }
     public static bool Pressed { get; set; }
@@ -15,22 +16,11 @@ namespace ZombieSurvival
     {
       Exit = new RectangleShape(new Vector2f(300, 50)) { FillColor = Color.White };
       ExitText = new Text("Menu", new Font("../../../Data/freesans.ttf"), 24) { Color = Color.Black };
-      Results = new Text[5];
+      Results = new List<Text>();
     }
 
     public static void Update(float deltaTime, RenderWindow window, InputState inputState, ref Mode mode)
     {
-      using (var sr = new StreamReader("../../../Data/score"))
-      {
-        for (int i = 0; i < 5; i++)
-        {
-          if (sr.EndOfStream)
-            break;
-
-          string val = sr.ReadLine();
-          Results[i] = new Text($"{(i + 1)}. Score: {val}", new Font("../../../Data/freesans.ttf")) { Position = new Vector2f(window.Size.X / 2, (i + 1) * 100) };
-        }
-      }
       if (ButtonPressed(window, inputState, ref mode))
         return;
 
@@ -47,6 +37,20 @@ namespace ZombieSurvival
         return true;
       }
       return false;
+    }
+
+    public static void LoadResults(RenderWindow window)
+    {
+      using (var sr = new StreamReader("../../../../score"))
+      {
+        int i = 1;
+        while(!sr.EndOfStream)
+        {
+          string val = sr.ReadLine();
+          Results.Add(new Text($"{i}. Player1: {val}", new Font("../../../Data/freesans.ttf")) { Position = new Vector2f(75, i * 50) });
+          i++;
+        }
+      }
     }
 
     private static void ChangeButtonColor(InputState inputState)

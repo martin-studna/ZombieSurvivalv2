@@ -39,7 +39,7 @@ namespace ZombieSurvival
 
     private static void SpawnEnemy()
     {
-      if (EnemyStopwatch.ElapsedMilliseconds > 1400)
+      if (EnemyStopwatch.ElapsedMilliseconds > 500)
       {
         Enemies.Add(new Enemy());
         EnemyStopwatch.Reset();

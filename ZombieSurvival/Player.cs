@@ -9,6 +9,7 @@ namespace ZombieSurvival
 {
   public class Player: Entity
   {
+    public string Name { get; set; }
     private Sound ShotSound { get; set; }
     private Sound BombSound { get; set; }
     private Sound LaserSound { get; set; }
@@ -34,6 +35,8 @@ namespace ZombieSurvival
 
     public Player()
     {
+      Name = "Player1";
+
       HealthText = new Text("Health: " + Health, GameWorld.Font, 24)
       {
         Position = new Vector2f(GameWorld.MapSize.X - 160, 10),

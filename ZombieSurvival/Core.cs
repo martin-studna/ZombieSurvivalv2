@@ -1,5 +1,7 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.IO;
+using System.Linq;
 using System.Threading;
 using SFML.Graphics;
 using SFML.System;
@@ -31,8 +33,8 @@ namespace ZombieSurvival
       _window.MouseButtonReleased += OnMouseButtonReleased;
       _window.MouseWheelMoved += OnMouseWheel;
 
-      if (!File.Exists("../../../Data/score"))
-        File.Create("../../../Data/score");
+      if (!File.Exists("../../../../score"))
+        File.Create("../../../../score");
 
       InitMenu();
       InitScore();
@@ -47,7 +49,6 @@ namespace ZombieSurvival
         lastTime = currentTime;
 
         _window.DispatchEvents();
-
 
         switch (mode)
         {
@@ -74,7 +75,11 @@ namespace ZombieSurvival
             _window.Clear(Color.White);
             GameWorld.Draw(_window);
             if (GameWorld.Player1.Dead)
+            {
               mode = Mode.Menu;
+              WriteResult(GameWorld.Player1.Score);
+            }
+
             break;
         }
 
@@ -101,6 +106,35 @@ namespace ZombieSurvival
           Menu.Pressed = false;
         }
       }
+    }
+
+    private void WriteResult(int score)
+    {
+      var results = new List<string> { score.ToString() };
+
+      var sr = new StreamReader("../../../../score");
+
+      while (!sr.EndOfStream)
+        results.Add(sr.ReadLine());
+
+      sr.Close();
+
+      results = results.OrderByDescending(x => int.Parse(x.Split(' ').Last())).Distinct().ToList();
+
+      if (results.Count > 10)
+      {
+        results.RemoveAt(10);
+      }
+
+      var sw = new StreamWriter("../../../../score");
+
+      foreach (var result in results)
+      {
+        sw.WriteLine(result);
+      }
+
+      sw.Close();
+
     }
 
     private void InitInfo()

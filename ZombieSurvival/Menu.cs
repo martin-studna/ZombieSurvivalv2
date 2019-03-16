@@ -73,6 +73,7 @@ namespace ZombieSurvival
       {
         Score.FillColor = Color.Red;
         mode = Mode.Score;
+        ZombieSurvival.Score.LoadResults(window);
         Pressed = true;
         return true;
       }
