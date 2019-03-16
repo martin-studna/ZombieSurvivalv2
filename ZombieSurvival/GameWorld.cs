@@ -102,9 +102,6 @@ namespace ZombieSurvival
       {
         for (int i = 0; i < Player1.Bombs.Count; i++)
         {
-          if (i >= Player1.Bombs.Count || Player1.Bombs[i] == null)
-            break;
-
           Player1.Bombs[i].Update();
 
           if (Player1.Bombs[i].Ticks > 50)
@@ -187,9 +184,6 @@ namespace ZombieSurvival
       {
         for (int i = 0; i < Player1.Bombs.Count; i++)
         {
-          if (i >= Player1.Bombs.Count || Player1.Bombs[i] == null)
-            break;
-
           if (Player1.Bombs[i].Hit)
           {
             Player1.Bombs.RemoveAt(i);
