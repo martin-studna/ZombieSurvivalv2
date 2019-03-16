@@ -136,11 +136,15 @@ namespace ZombieSurvival
 
     private void BulletShoot()
     {
-      ShotSound.Play();
-      BulletCounter++;
-      var bullet = new Bullet { Shape = { Position = Center } };
-      bullet.CurrentVelocity = AimDirectionNormal * bullet.MaxVelocity;
-      Bullets.Add(bullet);
+      lock (Sprite)
+      {
+        ShotSound.Play();
+        BulletCounter++;
+        var bullet = new Bullet { Shape = { Position = Center } };
+        bullet.CurrentVelocity = AimDirectionNormal * bullet.MaxVelocity;
+        Bullets.Add(bullet);
+      }
+      
     }
 
     private void LaserShoot()

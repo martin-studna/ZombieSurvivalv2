@@ -32,10 +32,11 @@ namespace ZombieSurvival
 
     public static void Update(float deltaTime, InputState inputState, RenderWindow window)
     {
-      Player1.Update(deltaTime, inputState);
-      SpawnEnemy();
-      UpdateProjectiles(window);
-      UpdateEnemies();
+      Parallel.Invoke(
+      () => { Player1.Update(deltaTime, inputState); },
+      SpawnEnemy,
+      () => { UpdateProjectiles(window); },
+      UpdateEnemies);
     }
 
     private static void SpawnEnemy()
@@ -50,109 +51,132 @@ namespace ZombieSurvival
 
     private static void UpdateProjectiles(RenderWindow window)
     {
-      foreach (var bullet in Player1.Bullets)
+      lock (window)
       {
-        bullet.Update();
-
-        if (bullet.Shape.Position.X > window.Size.X || bullet.Shape.Position.X < 0 || bullet.Shape.Position.Y < 0 || bullet.Shape.Position.Y > window.Size.Y)
+        for (int i = 0; i < Player1.Bullets.Count; i++)
         {
-          Player1.Bullets.Remove(bullet);
-          break;
+          Player1.Bullets[i].Update();
+
+          if (Player1.Bullets[i].Shape.Position.X > window.Size.X
+              || Player1.Bullets[i].Shape.Position.X < 0
+              || Player1.Bullets[i].Shape.Position.Y < 0
+              || Player1.Bullets[i].Shape.Position.Y > window.Size.Y)
+          {
+            Player1.Bullets.RemoveAt(i);
+            break;
+          }
         }
       }
 
-      foreach (var laser in Player1.Lasers)
+      lock (window)
       {
-        laser.Update();
-        if (laser.Alpha <= 0)
+        for (int i = 0; i < Player1.Lasers.Count; i++)
         {
-          Player1.Lasers.Remove(laser);
-          break;
+          Player1.Lasers[i].Update();
+          if (Player1.Lasers[i].Alpha <= 0)
+          {
+            Player1.Lasers.RemoveAt(i);
+            break;
+          }
         }
       }
 
-      foreach (var bomb in Player1.Bombs)
+      lock (window)
       {
-        bomb.Update();
-
-        if (bomb.Ticks > 50)
+        for (int i = 0; i < Player1.Bombs.Count; i++)
         {
-          Player1.Bombs.Remove(bomb);
-          break;
-        }
+          Player1.Bombs[i].Update();
 
-        if (bomb.Shape.Position.X > window.Size.X || bomb.Shape.Position.X < 0
-            || bomb.Shape.Position.Y < 0 || bomb.Shape.Position.Y > window.Size.Y)
-        {
-          Player1.Bombs.Remove(bomb);
-          break;
+          if (Player1.Bombs[i].Ticks > 50)
+          {
+            Player1.Bombs.RemoveAt(i);
+            break;
+          }
+
+          if (Player1.Bombs[i].Shape.Position.X > window.Size.X || Player1.Bombs[i].Shape.Position.X < 0
+              || Player1.Bombs[i].Shape.Position.Y < 0 || Player1.Bombs[i].Shape.Position.Y > window.Size.Y)
+          {
+            Player1.Bombs.RemoveAt(i);
+            break;
+          }
         }
       }
     }
 
     private static void UpdateEnemies()
     {
-      foreach (var enemy in Enemies)
+      lock (Player1)
       {
-        enemy.Update(Player1);
-
-        if (Collision(enemy))
-          enemy.HurtSound.Play();
-
-        if (enemy.Dead)
+        for (int i = 0; i < Enemies.Count; i++)
         {
-          Enemies.Remove(enemy);
-          break;
+          Enemies[i].Update(Player1);
+
+          if (Collision(Enemies[i]))
+            Enemies[i].HurtSound.Play();
+
+          if (Enemies[i].Dead)
+          {
+            Enemies.RemoveAt(i);
+            break;
+          }
         }
       }
     }
 
     private static bool Collision(Enemy enemy)
     {
-      foreach (var bullet in Player1.Bullets)
+      lock (enemy)
       {
-        if (enemy.Sprite.GetGlobalBounds().Intersects(bullet.Shape.GetGlobalBounds()))
+        for (int i = 0; i < Player1.Bullets.Count; i++)
         {
-          Parallel.Invoke(() =>
+          if (Player1.Bullets[i] != null && enemy.Sprite.GetGlobalBounds().Intersects(Player1.Bullets[i].Shape.GetGlobalBounds()))
           {
-             enemy.Health -= 10;
-          },
-          () =>
+            Parallel.Invoke(() =>
+            {
+              enemy.Health -= 10;
+            },
+
+            () =>
+            {
+              Player1.Bullets.RemoveAt(i);
+            }
+            );
+            return true;
+          }
+        }
+      }
+
+      lock (enemy)
+      {
+        for (int i = 0; i < Player1.Lasers.Count; i++)
+        {
+          if (enemy.Sprite.GetGlobalBounds().Intersects(Player1.Lasers[i].Shape.GetGlobalBounds()))
           {
-            Player1.Bullets.Remove(bullet);
-          }  
-          );
-         // enemy.Health -= 10;
-         // Player1.Bullets.Remove(bullet);
-          return true;
+            enemy.Health -= 40;
+            return true;
+          }
         }
       }
 
-      foreach (var laser in Player1.Lasers)
+      lock (enemy)
       {
-        if (enemy.Sprite.GetGlobalBounds().Intersects(laser.Shape.GetGlobalBounds()))
+        for (int i = 0; i < Player1.Bombs.Count; i++)
         {
-          enemy.Health -= 40;
-          return true;
+          if (Player1.Bombs[i].Hit)
+          {
+            Player1.Bombs.RemoveAt(i);
+            break;
+          }
+          if (enemy.Sprite.GetGlobalBounds().Intersects(Player1.Bombs[i].Shape.GetGlobalBounds()))
+          {
+            enemy.Health -= 20;
+            Player1.Bombs[i].Hit = true;
+            Player1.Bombs[i].Shape.Radius = 30;
+            return true;
+          }
         }
       }
-
-      foreach (var bomb in Player1.Bombs)
-      {
-        if (bomb.Hit)
-        {
-          Player1.Bombs.Remove(bomb);
-          break;
-        }
-        if (enemy.Sprite.GetGlobalBounds().Intersects(bomb.Shape.GetGlobalBounds()))
-        {
-          enemy.Health -= 20;
-          bomb.Hit = true;
-          bomb.Shape.Radius = 30;
-          return true;
-        }
-      }
-
+                                     
       return false;
     }
 
