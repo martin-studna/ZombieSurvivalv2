@@ -3,6 +3,11 @@ using SFML.Window;
 
 namespace ZombieSurvival
 {
+  /// <summary>
+  /// The InputState class holds all important keyboard and mouse events.
+  /// This class holds array of booleans, which represents if the key was pressed or released.
+  /// It also contains current mouse position.
+  /// </summary>
   public class InputState
   {
     public Vector2f MousePosition { get; set; }

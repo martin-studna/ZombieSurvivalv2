@@ -5,6 +5,9 @@ using SFML.System;
 
 namespace ZombieSurvival
 {
+  /// <summary>
+  /// The Score class represents windows, where are written the highest scores
+  /// </summary>
   public static class Score
   {
     public static List<Text> Results { get; set; }
@@ -39,6 +42,10 @@ namespace ZombieSurvival
       return false;
     }
 
+    /// <summary>
+    /// The LoadResults method loads the highest scores of the game from score file in the Score window.
+    /// </summary>
+    /// <param name="window"></param>
     public static void LoadResults(RenderWindow window)
     {
       using (var sr = new StreamReader("../../../../score"))

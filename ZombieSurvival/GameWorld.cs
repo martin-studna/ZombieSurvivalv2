@@ -8,6 +8,12 @@ using SFML.System;
 
 namespace ZombieSurvival
 {
+  /// <summary>
+  /// The GameWorld class represents state of the game. It holds all data about the game environment like
+  /// player's health, properties of enemies and etc.
+  /// Properties of the world are updated with the Update method.
+  /// The Draw method draws all the objects of the world to the window, which is passed as the parameter. 
+  /// </summary>
   public static class GameWorld
   {
     public static Vector2f MapSize { get; set; }
@@ -49,6 +55,11 @@ namespace ZombieSurvival
       }
     }
 
+    /// <summary>
+    /// The UpdateProjectiles method updates all types of projectiles and checks collissions
+    /// with window borders and with enemies.
+    /// </summary>
+    /// <param name="window"></param>
     private static void UpdateProjectiles(RenderWindow window)
     {
       lock (window)
@@ -103,6 +114,9 @@ namespace ZombieSurvival
       }
     }
 
+    /// <summary>
+    /// The UpdateEnemies method updates positions of enemies and checks collissions with player.
+    /// </summary>
     private static void UpdateEnemies()
     {
       lock (Player1)

@@ -4,6 +4,9 @@ using SFML.System;
 
 namespace ZombieSurvival
 {
+  /// <summary>
+  /// The Info class represents window with summary informations about the game.
+  /// </summary>
   public static class Info
   {
     public static RectangleShape Exit { get; set; }

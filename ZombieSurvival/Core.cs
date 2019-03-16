@@ -9,12 +9,33 @@ using SFML.Window;
 
 namespace ZombieSurvival
 {
+  /// <summary>
+  /// The Core class initialize all important resources for the game execution.
+  /// As we can see there are Update and Draw methods, which are constantly called in the while loop.
+  /// Game contains several states or we can say modes like Menu, Game, Score, Info and Closing. Each time
+  /// we click at one of those buttons in the Game menu, we change this mode and switch to a next window.
+  /// </summary>
+  /// <remarks>
+  /// This class also process keyboard events and mouse events. 
+  /// </remarks>
   public class Core
   {
     private InputState _inputState;
     private RenderWindow _window;
     private Mode mode = Mode.Menu;
 
+    /// <summary>
+    /// <code>
+    /// if (Info.Pressed)
+    /// {
+    ///   Thread.Sleep(150);
+    ///   Info.Pressed = false;
+    /// }
+    /// </code>
+    /// Everytime we press a button, we would like to change it's color, but also
+    /// we would like to remain for some time in a current window, so we can see that the
+    /// color of the button has changed. We can do this by making the thread sleep.
+    /// </summary>
     public void Run()
     {
       _inputState = new InputState();
@@ -107,6 +128,10 @@ namespace ZombieSurvival
       }
     }
 
+    /// <summary>
+    /// The WriteResult method stores highest scores in to the file. It also sorts the results in descending order.  
+    /// </summary>
+    /// <param name="score"></param>
     private void WriteResult(int score)
     {
       var results = new List<string> { score.ToString() };
@@ -136,18 +161,28 @@ namespace ZombieSurvival
 
     }
 
+    /// <summary>
+    /// The InitInfo method initialize all important properties of the Info class before it is used.
+    /// </summary>
     private void InitInfo()
     {
       Info.InfoText.Position = new Vector2f(50, 50);
       Info.Exit.Position = new Vector2f(50, _window.Size.Y - 100);
       Info.ExitText.Position = new Vector2f(Score.Exit.Position.X + Score.Exit.GetGlobalBounds().Width / 2 - 30, Score.Exit.Position.Y + Score.Exit.Size.Y / 4);
     }
+
+    /// <summary>
+    /// The InitScore method initialize all important properties of the Score class before it is used.
+    /// </summary>
     private void InitScore()
     {
       Score.Exit.Position = new Vector2f(50, _window.Size.Y - 100);
       Score.ExitText.Position = new Vector2f(Score.Exit.Position.X + Score.Exit.GetGlobalBounds().Width / 2 - 30, Score.Exit.Position.Y + Score.Exit.Size.Y / 4);
     }
 
+    /// <summary>
+    /// The InitMenu method initialize all important properties of the Menu class before it is used.
+    /// </summary>
     private void InitMenu()
     {
       Menu.Background = new RectangleShape((Vector2f)_window.Size)
@@ -167,6 +202,12 @@ namespace ZombieSurvival
       Menu.ExitText.Position = new Vector2f(_window.Size.X / 2 - Menu.ExitText.GetGlobalBounds().Width / 2, _window.Size.Y - (_window.Size.Y - 500) + (Menu.Exit.Size.Y / 4));
     }
 
+    /// <summary>
+    /// The OnMouseWheel method processes mouse wheel events.
+    /// With this method we can choose a gun with which we want to shoot enemies.
+    /// </summary>
+    /// <param name="sender"></param>
+    /// <param name="e"></param>
     private void OnMouseWheel(object sender, MouseWheelEventArgs e)
     {
       if (mode == Mode.Game)
@@ -178,11 +219,21 @@ namespace ZombieSurvival
       }
     }
 
+    /// <summary>
+    /// The OnClosed method closes current window.
+    /// </summary>
+    /// <param name="sender"></param>
+    /// <param name="e"></param>
     private void OnClosed(object sender, EventArgs e)
     {
       _window.Close();
     }
 
+    /// <summary>
+    /// The OnKeyPressed processes all keyboard pressed events and store them in the InputState class.
+    /// </summary>
+    /// <param name="sender"></param>
+    /// <param name="e"></param>
     private void OnKeyPressed(object sender, KeyEventArgs e)
     {
       if (e.Code == Keyboard.Key.Escape)
@@ -194,6 +245,11 @@ namespace ZombieSurvival
         _inputState.IsKeyPressed[keyCode] = true;
     }
 
+    /// <summary>
+    /// The OnKeyPressed processes all keyboard released events and store them in the InputState class.
+    /// </summary>
+    /// <param name="sender"></param>
+    /// <param name="e"></param>
     private void OnKeyReleased(object sender, KeyEventArgs e)
     {
       int keyCode = (int)e.Code;
@@ -202,6 +258,11 @@ namespace ZombieSurvival
         _inputState.IsKeyPressed[keyCode] = false;
     }
 
+    /// <summary>
+    /// The OnMouseMoved method stores the current mouse position in the InputState class.
+    /// </summary>
+    /// <param name="sender"></param>
+    /// <param name="e"></param>
     private void OnMouseMoved(object sender, MouseMoveEventArgs e)
     {
       _inputState.MousePosition = new Vector2f(e.X, e.Y);
@@ -210,12 +271,22 @@ namespace ZombieSurvival
         _inputState.MousePosition.Y - _window.Size.Y / 2);
     }
 
+    /// <summary>
+    /// The OnMouseButtonPressed method stores mouse button pressed events in the InputState class.
+    /// </summary>
+    /// <param name="sender"></param>
+    /// <param name="e"></param>
     private void OnMouseButtonPressed(object sender, MouseButtonEventArgs e)
     {
       if (e.Button == Mouse.Button.Left)
         _inputState.IsLmbPressed = true;
     }
 
+    /// <summary>
+    /// The OnMouseButtonReleased method stores mouse button released events in the InputState class. 
+    /// </summary>
+    /// <param name="sender"></param>
+    /// <param name="e"></param>
     private void OnMouseButtonReleased(object sender, MouseButtonEventArgs e)
     {
       if (e.Button == Mouse.Button.Left)

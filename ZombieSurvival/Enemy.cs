@@ -5,6 +5,10 @@ using SFML.System;
 
 namespace ZombieSurvival
 {
+  /// <summary>
+  /// The Enemy class represents all types of enemies.
+  /// The class holds basic properties like Health, Movement direction, Attack and etc.
+  /// </summary>
   public class Enemy: Entity
   {
     public bool Collision { get; set; }

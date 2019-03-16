@@ -4,6 +4,9 @@ using SFML.Window;
 
 namespace ZombieSurvival
 {
+  /// <summary>
+  /// The Menu class represents window with menu.
+  /// </summary>
   public static class Menu
   {
     public static RectangleShape Start { get; set; }
@@ -51,6 +54,14 @@ namespace ZombieSurvival
       };
     }
 
+    /// <summary>
+    /// The ButtonPressed method sets color of the button to red,
+    /// if the cursor position is at the position of button and is clicked.
+    /// </summary>
+    /// <param name="window"></param>
+    /// <param name="inputState"></param>
+    /// <param name="mode"></param>
+    /// <returns></returns>
     private static bool ButtonPressed(RenderWindow window, InputState inputState, ref Mode mode)
     {
       if (Start.GetGlobalBounds().Contains(inputState.MousePosition.X, inputState.MousePosition.Y) && inputState.IsLmbPressed)
@@ -89,6 +100,10 @@ namespace ZombieSurvival
       return false;
     }
 
+    /// <summary>
+    /// The ChangeButtonColor method sets a color of the button to green, if the cursor position is at the position of the button.
+    /// </summary>
+    /// <param name="inputState"></param>
     private static void ChangeButtonColor(InputState inputState)
     {
       if (Start.GetGlobalBounds().Contains(inputState.MousePosition.X, inputState.MousePosition.Y))
@@ -115,7 +130,11 @@ namespace ZombieSurvival
         Exit.FillColor = Color.White;
       }
     }
-
+    
+    /// <summary>
+    /// The Draw method draws all buttons of the Menu window.
+    /// </summary>
+    /// <param name="window"></param>
     public static void Draw(RenderWindow window)
     {
       window.Draw(Background);
