@@ -22,7 +22,7 @@ namespace ZombieSurvival
       _window = new RenderWindow(new VideoMode(800, 800), "Zombie Survival", Styles.Close, new ContextSettings(24, 8, 2));
       _window.SetFramerateLimit(100);
       _window.SetVerticalSyncEnabled(true);
-      _window.SetActive();
+      _window.SetActive(false);
 
       // Setup event handlers
       _window.Closed += OnClosed;
@@ -79,7 +79,6 @@ namespace ZombieSurvival
               mode = Mode.Menu;
               WriteResult(GameWorld.Player1.Score);
             }
-
             break;
         }
 

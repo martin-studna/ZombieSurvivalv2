@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Diagnostics;
+using System.Threading.Tasks;
 using SFML.Audio;
 using SFML.Graphics;
 using SFML.System;
@@ -112,8 +113,17 @@ namespace ZombieSurvival
       {
         if (enemy.Sprite.GetGlobalBounds().Intersects(bullet.Shape.GetGlobalBounds()))
         {
-          enemy.Health -= 10;
-          Player1.Bullets.Remove(bullet);
+          Parallel.Invoke(() =>
+          {
+             enemy.Health -= 10;
+          },
+          () =>
+          {
+            Player1.Bullets.Remove(bullet);
+          }  
+          );
+         // enemy.Health -= 10;
+         // Player1.Bullets.Remove(bullet);
           return true;
         }
       }
@@ -131,8 +141,8 @@ namespace ZombieSurvival
       {
         if (bomb.Hit)
         {
-            Player1.Bombs.Remove(bomb);
-            break;
+          Player1.Bombs.Remove(bomb);
+          break;
         }
         if (enemy.Sprite.GetGlobalBounds().Intersects(bomb.Shape.GetGlobalBounds()))
         {
