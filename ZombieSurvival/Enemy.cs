@@ -42,6 +42,9 @@ namespace ZombieSurvival
       }
     }
 
+    /// <summary>
+    /// Enemy can come from one of the four sides of the window
+    /// </summary>
     private void SetInitialPosition()
     {
       switch (GameWorld.Random.Next(4))
@@ -61,6 +64,12 @@ namespace ZombieSurvival
       }
     }
 
+    /// <summary>
+    /// The SetType method sets type of the enemy.
+    /// Red one = boss
+    /// Yellow one = sprinter
+    /// Without color = minion
+    /// </summary>
     private void SetType()
     {
       EnemyType = GameWorld.Random.Next(3);

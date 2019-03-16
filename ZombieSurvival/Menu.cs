@@ -1,6 +1,5 @@
 ﻿using SFML.Graphics;
 using SFML.System;
-using SFML.Window;
 
 namespace ZombieSurvival
 {
@@ -33,9 +32,9 @@ namespace ZombieSurvival
     }
 
     public static void Update(float deltaTime, InputState inputState, RenderWindow window, ref Mode mode)
-    { 
+    {
       if (ButtonPressed(window, inputState, ref mode))
-         return;
+        return;
 
       ChangeButtonColor(inputState);
     }
@@ -130,7 +129,7 @@ namespace ZombieSurvival
         Exit.FillColor = Color.White;
       }
     }
-    
+
     /// <summary>
     /// The Draw method draws all buttons of the Menu window.
     /// </summary>

@@ -3,6 +3,9 @@ using SFML.System;
 
 namespace ZombieSurvival
 {
+  /// <summary>
+  /// Class bullet represent projectile with which player shoots enemies
+  /// </summary>
   public class Bullet
   {
     public CircleShape Shape { get; set; }

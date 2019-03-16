@@ -172,7 +172,7 @@ namespace ZombieSurvival
       {
         for (int i = 0; i < Player1.Lasers.Count; i++)
         {
-             
+
 
           //if (enemy.Sprite.GetGlobalBounds().Intersects(Player1.Lasers[i].Shape.GetGlobalBounds()))
           if (RectanglesOverlap(enemy.Sprite.GetGlobalBounds(), Player1.Lasers[i].Shape.GetGlobalBounds()))
@@ -201,7 +201,7 @@ namespace ZombieSurvival
           }
         }
       }
-                                     
+
       return false;
     }
 

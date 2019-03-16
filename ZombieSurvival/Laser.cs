@@ -3,6 +3,11 @@ using SFML.System;
 
 namespace ZombieSurvival
 {
+  /// <summary>
+  /// The class Laser represents laser gun, which has a player available.
+  /// If we shoot the laser, we make laser disappear by decreasing the alpha channel of the color,
+  /// which rectangle shape has.
+  /// </summary>
   public class Laser
   {
     public RectangleShape Shape { get; set; }

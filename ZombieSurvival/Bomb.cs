@@ -4,6 +4,9 @@ using SFML.System;
 
 namespace ZombieSurvival
 {
+  /// <summary>
+  /// Class bomb represents gun, which uses player to shoot enemies
+  /// </summary>
   public class Bomb
   {
     public bool Hit { get; set; }

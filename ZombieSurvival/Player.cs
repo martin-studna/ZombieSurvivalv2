@@ -144,7 +144,7 @@ namespace ZombieSurvival
         bullet.CurrentVelocity = AimDirectionNormal * bullet.MaxVelocity;
         Bullets.Add(bullet);
       }
-      
+
     }
 
     private void LaserShoot()
@@ -163,7 +163,7 @@ namespace ZombieSurvival
         };
         Lasers.Add(laser);
       }
-      
+
     }
 
     private void BombShoot()

@@ -51,7 +51,7 @@ namespace ZombieSurvival
       using (var sr = new StreamReader("../../../../score"))
       {
         int i = 1;
-        while(!sr.EndOfStream)
+        while (!sr.EndOfStream)
         {
           string val = sr.ReadLine();
           Results.Add(new Text($"{i}. Player1: {val}", new Font("../../../Data/freesans.ttf")) { Position = new Vector2f(75, i * 50) });

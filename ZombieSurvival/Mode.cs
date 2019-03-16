@@ -1,9 +1,8 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
-
-namespace ZombieSurvival
+﻿namespace ZombieSurvival
 {
+  /// <summary>
+  /// The enum Mode determines, which window is currently open
+  /// </summary>
   public enum Mode
   {
     Closing,
