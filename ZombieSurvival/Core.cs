@@ -22,7 +22,7 @@ namespace ZombieSurvival
   {
     private InputState _inputState;
     private RenderWindow _window;
-    private Mode mode = Mode.Menu;
+    private Mode _mode = Mode.Menu;
 
     /// <summary>
     /// <code>
@@ -60,6 +60,7 @@ namespace ZombieSurvival
       InitMenu();
       InitScore();
       InitInfo();
+      InitSetName();
 
       float lastTime = 0f;
 
@@ -71,23 +72,28 @@ namespace ZombieSurvival
 
         _window.DispatchEvents();
 
-        switch (mode)
+        switch (_mode)
         {
           case Mode.Closing:
             _window.Close();
             break;
+          case Mode.SetName:
+            SetName.Update(deltaTime, _window, _inputState, ref _mode);
+            _window.Clear(Color.Black);
+            SetName.Draw(_window);
+            break;
           case Mode.Menu:
-            Menu.Update(deltaTime, _inputState, _window, ref mode);
+            Menu.Update(deltaTime, _inputState, _window, ref _mode);
             _window.Clear(Color.Black);
             Menu.Draw(_window);
             break;
           case Mode.Score:
-            Score.Update(deltaTime, _window, _inputState, ref mode);
+            Score.Update(deltaTime, _window, _inputState, ref _mode);
             _window.Clear(Color.Black);
             Score.Draw(_window);
             break;
           case Mode.Info:
-            Info.Update(deltaTime, _window, _inputState, ref mode);
+            Info.Update(deltaTime, _window, _inputState, ref _mode);
             _window.Clear(Color.Black);
             Info.Draw(_window);
             break;
@@ -97,8 +103,8 @@ namespace ZombieSurvival
             GameWorld.Draw(_window);
             if (GameWorld.Player1.Dead)
             {
-              mode = Mode.Menu;
-              WriteResult(GameWorld.Player1.Score);
+              _mode = Mode.Menu;
+              WriteResult(GameWorld.Player1.Name, GameWorld.Player1.Score);
             }
             break;
         }
@@ -120,6 +126,13 @@ namespace ZombieSurvival
           Score.Pressed = false;
         }
 
+        if (SetName.Pressed)
+        {
+          Thread.Sleep(150);
+          GameWorld.Player1.Name = SetName.InputText.DisplayedString;
+          SetName.Pressed = false;
+        }
+
         if (Menu.Pressed)
         {
           Thread.Sleep(150);
@@ -132,18 +145,21 @@ namespace ZombieSurvival
     /// The WriteResult method stores highest scores in to the file. It also sorts the results in descending order.  
     /// </summary>
     /// <param name="score"></param>
-    private void WriteResult(int score)
+    private void WriteResult(string name, int score)
     {
-      var results = new List<string> { score.ToString() };
-
+      var results = new List<string> { name + ": " + score };
       var sr = new StreamReader("../../../../score");
 
       while (!sr.EndOfStream)
-        results.Add(sr.ReadLine());
+      {
+        string val = sr.ReadLine();
+        if (!string.IsNullOrEmpty(val))
+          results.Add(val);
+      }
 
       sr.Close();
 
-      results = results.OrderByDescending(x => int.Parse(x.Split(' ').Last())).Distinct().ToList();
+      results = results.OrderByDescending(x => int.Parse(x.Length == 0 ? "0" : x.Split(' ').Last())).Distinct().ToList();
 
       if (results.Count > 10)
       {
@@ -159,6 +175,15 @@ namespace ZombieSurvival
 
       sw.Close();
 
+    }
+
+    private void InitSetName()
+    {
+      SetName.Ok.Position = new Vector2f(_window.Size.X / 2 - SetName.Ok.Size.X / 2, 500);
+      SetName.OkText.Position = new Vector2f(SetName.Ok.Position.X + SetName.Ok.Size.X / 2 - SetName.OkText.GetGlobalBounds().Width / 2,
+        SetName.Ok.Position.Y + SetName.Ok.Size.Y / 2 - SetName.OkText.GetGlobalBounds().Height / 2);
+      SetName.TextBox.Position = new Vector2f(_window.Size.X / 2 - SetName.Ok.Size.X / 2, 500 - 75);
+      SetName.InputText.Position = new Vector2f(SetName.TextBox.Position.X + 10, SetName.TextBox.Position.Y + 10);
     }
 
     /// <summary>
@@ -210,7 +235,7 @@ namespace ZombieSurvival
     /// <param name="e"></param>
     private void OnMouseWheel(object sender, MouseWheelEventArgs e)
     {
-      if (mode == Mode.Game)
+      if (_mode == Mode.Game)
       {
         GameWorld.Player1.GunType = (GameWorld.Player1.GunType + e.Delta) % 3;
 
@@ -243,6 +268,14 @@ namespace ZombieSurvival
 
       if (keyCode >= 0 && keyCode < (int)Keyboard.Key.KeyCount)
         _inputState.IsKeyPressed[keyCode] = true;
+
+      if (_mode == Mode.SetName)
+      {
+        if (e.Code != Keyboard.Key.BackSpace)
+          SetName.InputText.DisplayedString += e.Code.ToString().ToLower();
+        else
+          SetName.InputText.DisplayedString = SetName.InputText.DisplayedString.Substring(0, SetName.InputText.DisplayedString.Length - 1);
+      }
     }
 
     /// <summary>

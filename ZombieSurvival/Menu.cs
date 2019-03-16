@@ -66,7 +66,7 @@ namespace ZombieSurvival
       if (Start.GetGlobalBounds().Contains(inputState.MousePosition.X, inputState.MousePosition.Y) && inputState.IsLmbPressed)
       {
         Start.FillColor = Color.Red;
-        mode = Mode.Game;
+        mode = Mode.SetName;
         InitGameWorld(window);
         Pressed = true;
         return true;

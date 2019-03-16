@@ -149,7 +149,7 @@ namespace ZombieSurvival
 
     private void LaserShoot()
     {
-      lock (Sprite)
+      lock (Bullets)
       {
         LaserSound.Play();
         LaserFired = true;
@@ -168,7 +168,7 @@ namespace ZombieSurvival
 
     private void BombShoot()
     {
-      lock (Sprite)
+      lock (Lasers)
       {
         BombSound.Play();
         BombCounter++;

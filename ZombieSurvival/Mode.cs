@@ -5,6 +5,7 @@
   /// </summary>
   public enum Mode
   {
+    SetName,
     Closing,
     Info,
     Score,

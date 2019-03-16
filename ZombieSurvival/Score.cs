@@ -54,7 +54,10 @@ namespace ZombieSurvival
         while (!sr.EndOfStream)
         {
           string val = sr.ReadLine();
-          Results.Add(new Text($"{i}. Player1: {val}", new Font("../../../Data/freesans.ttf")) { Position = new Vector2f(75, i * 50) });
+          if(string.IsNullOrEmpty(val))
+            break;
+
+          Results.Add(new Text($"{i}. {val}", new Font("../../../Data/freesans.ttf")) { Position = new Vector2f(75, i * 50) });
           i++;
         }
       }

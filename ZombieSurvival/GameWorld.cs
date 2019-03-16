@@ -127,7 +127,7 @@ namespace ZombieSurvival
     /// </summary>
     private static void UpdateEnemies()
     {
-      lock (Player1)
+      lock (Enemies)
       {
         for (int i = 0; i < Enemies.Count; i++)
         {
@@ -172,9 +172,6 @@ namespace ZombieSurvival
       {
         for (int i = 0; i < Player1.Lasers.Count; i++)
         {
-
-
-          //if (enemy.Sprite.GetGlobalBounds().Intersects(Player1.Lasers[i].Shape.GetGlobalBounds()))
           if (RectanglesOverlap(enemy.Sprite.GetGlobalBounds(), Player1.Lasers[i].Shape.GetGlobalBounds()))
           {
             enemy.Health -= 40;
@@ -183,7 +180,7 @@ namespace ZombieSurvival
         }
       }
 
-      lock (Player1)
+      lock (Font)
       {
         for (int i = 0; i < Player1.Bombs.Count; i++)
         {
@@ -234,25 +231,25 @@ namespace ZombieSurvival
 
     private static void DrawEnemies(RenderWindow window)
     {
-      foreach (var enemy in Enemies)
-        enemy.Draw(window);
+      for (int i = 0; i < Enemies.Count; i++)
+        Enemies[i].Draw(window);
     }
 
     private static void DrawBullets(RenderWindow window)
     {
-      foreach (var bullet in Player1.Bullets)
-        bullet.Draw(window);
+      for (int i = 0; i < Player1.Bullets.Count; i++)
+        Player1.Bullets[i].Draw(window);
     }
 
     private static void DrawLasers(RenderWindow window)
     {
-      foreach (var laser in Player1.Lasers)
-        laser.Draw(window);
+      for (int i = 0; i < Player1.Lasers.Count; i++)
+        Player1.Lasers[i].Draw(window);
     }
     private static void DrawBombs(RenderWindow window)
     {
-      foreach (var bomb in Player1.Bombs)
-        bomb.Draw(window);
+      for (int i = 0; i < Player1.Bombs.Count; i++)
+        Player1.Bombs[i].Draw(window);
     }
   }
 }
