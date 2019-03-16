@@ -17,7 +17,7 @@ namespace ZombieSurvival
     public void Update()
     {
       Shape.FillColor = new Color(77, 204, 74, Alpha);
-      Alpha -= 5;
+      Alpha -= 25;
     }
 
     public void Draw(RenderWindow window)

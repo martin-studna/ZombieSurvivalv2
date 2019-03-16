@@ -90,7 +90,7 @@ namespace ZombieSurvival
             break;
 
           Player1.Lasers[i].Update();
-          if (Player1.Lasers[i].Alpha <= 0)
+          if (Player1.Lasers[i].Alpha <= 10)
           {
             Player1.Lasers.RemoveAt(i);
             break;
@@ -172,7 +172,10 @@ namespace ZombieSurvival
       {
         for (int i = 0; i < Player1.Lasers.Count; i++)
         {
-          if (enemy.Sprite.GetGlobalBounds().Intersects(Player1.Lasers[i].Shape.GetGlobalBounds()))
+             
+
+          //if (enemy.Sprite.GetGlobalBounds().Intersects(Player1.Lasers[i].Shape.GetGlobalBounds()))
+          if (RectanglesOverlap(enemy.Sprite.GetGlobalBounds(), Player1.Lasers[i].Shape.GetGlobalBounds()))
           {
             enemy.Health -= 40;
             return true;
@@ -211,6 +214,22 @@ namespace ZombieSurvival
       DrawEnemies(window);
       DrawLasers(window);
       DrawBombs(window);
+    }
+
+    private static bool RectanglesOverlap(FloatRect rect1, FloatRect rect2)
+    {
+      bool xOverlap = ValueInRange(rect1.Left, rect2.Left, rect2.Left + rect2.Width) ||
+                      ValueInRange(rect2.Left, rect1.Left, rect1.Left + rect1.Width);
+
+      bool yOverlap = ValueInRange(rect1.Top, rect2.Top, rect2.Top + rect2.Height) ||
+                      ValueInRange(rect2.Top, rect1.Top, rect1.Top + rect1.Height);
+
+      return xOverlap && yOverlap;
+    }
+
+    private static bool ValueInRange(float value, float min, float max)
+    {
+      return (value >= min) && (value <= max);
     }
 
     private static void DrawEnemies(RenderWindow window)
