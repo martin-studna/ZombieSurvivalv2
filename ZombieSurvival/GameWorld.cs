@@ -66,6 +66,9 @@ namespace ZombieSurvival
       {
         for (int i = 0; i < Player1.Bullets.Count; i++)
         {
+          if (Player1.Bullets[i] == null)
+            break;
+
           Player1.Bullets[i].Update();
 
           if (Player1.Bullets[i].Shape.Position.X > window.Size.X
@@ -79,10 +82,13 @@ namespace ZombieSurvival
         }
       }
 
-      lock (window)
+      lock (Player1)
       {
         for (int i = 0; i < Player1.Lasers.Count; i++)
         {
+          if (Player1.Lasers[i] == null)
+            break;
+
           Player1.Lasers[i].Update();
           if (Player1.Lasers[i].Alpha <= 0)
           {
@@ -92,10 +98,13 @@ namespace ZombieSurvival
         }
       }
 
-      lock (window)
+      lock (Watch)
       {
         for (int i = 0; i < Player1.Bombs.Count; i++)
         {
+          if (i >= Player1.Bombs.Count || Player1.Bombs[i] == null)
+            break;
+
           Player1.Bombs[i].Update();
 
           if (Player1.Bombs[i].Ticks > 50)
@@ -104,8 +113,10 @@ namespace ZombieSurvival
             break;
           }
 
-          if (Player1.Bombs[i].Shape.Position.X > window.Size.X || Player1.Bombs[i].Shape.Position.X < 0
-              || Player1.Bombs[i].Shape.Position.Y < 0 || Player1.Bombs[i].Shape.Position.Y > window.Size.Y)
+          if (Player1.Bombs[i].Shape.Position.X > window.Size.X
+              || Player1.Bombs[i].Shape.Position.X < 0
+              || Player1.Bombs[i].Shape.Position.Y < 0
+              || Player1.Bombs[i].Shape.Position.Y > window.Size.Y)
           {
             Player1.Bombs.RemoveAt(i);
             break;
@@ -160,7 +171,7 @@ namespace ZombieSurvival
         }
       }
 
-      lock (enemy)
+      lock (Watch)
       {
         for (int i = 0; i < Player1.Lasers.Count; i++)
         {
@@ -172,10 +183,13 @@ namespace ZombieSurvival
         }
       }
 
-      lock (enemy)
+      lock (Player1)
       {
         for (int i = 0; i < Player1.Bombs.Count; i++)
         {
+          if (i >= Player1.Bombs.Count || Player1.Bombs[i] == null)
+            break;
+
           if (Player1.Bombs[i].Hit)
           {
             Player1.Bombs.RemoveAt(i);

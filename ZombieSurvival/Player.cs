@@ -149,26 +149,33 @@ namespace ZombieSurvival
 
     private void LaserShoot()
     {
-      LaserSound.Play();
-      LaserFired = true;
-      var laser = new Laser
+      lock (Sprite)
       {
-        Shape =
+        LaserSound.Play();
+        LaserFired = true;
+        var laser = new Laser
         {
-          Position = Center,
-          Rotation = Sprite.Rotation
-        }
-      };
-      Lasers.Add(laser);
+          Shape =
+          {
+            Position = Center,
+            Rotation = Sprite.Rotation
+          }
+        };
+        Lasers.Add(laser);
+      }
+      
     }
 
     private void BombShoot()
     {
-      BombSound.Play();
-      BombCounter++;
-      var bomb = new Bomb { Shape = { Position = Center } };
-      bomb.CurrentVelocity = AimDirectionNormal * bomb.MaxVelocity;
-      Bombs.Add(bomb);
+      lock (Sprite)
+      {
+        BombSound.Play();
+        BombCounter++;
+        var bomb = new Bomb { Shape = { Position = Center } };
+        bomb.CurrentVelocity = AimDirectionNormal * bomb.MaxVelocity;
+        Bombs.Add(bomb);
+      }
     }
 
     private void SetDirection(Vector2f mousePosWindow)
