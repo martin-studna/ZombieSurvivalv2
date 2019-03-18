@@ -4,6 +4,9 @@ using SFML.System;
 
 namespace ZombieSurvival
 {
+  /// <summary>
+  /// The Entity class represents all entities in the game like player and enemies
+  /// </summary>
   public class Entity
   {
     public Sprite Sprite { get; set; }

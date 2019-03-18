@@ -25,7 +25,10 @@ namespace ZombieSurvival
       SetType();
       Collision = false;
     }
-
+    
+    /// <summary>
+    /// The GiveScore method gives score to the player based on his type.
+    /// </summary>
     private void GiveScore()
     {
       switch (EnemyType)

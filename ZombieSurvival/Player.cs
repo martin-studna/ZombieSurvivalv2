@@ -78,6 +78,9 @@ namespace ZombieSurvival
       MovementSpeed = 0.5f;
     }
 
+    /// <summary>
+    /// The SetGunText method informs player, which gun he has chosen.
+    /// </summary>
     private void SetGunText()
     {
       switch (GunType)
@@ -94,6 +97,9 @@ namespace ZombieSurvival
       }
     }
 
+    /// <summary>
+    /// The SetReloadText method informs player, how much time it will take him to reload the gun
+    /// </summary>
     private void SetReloadText()
     {
       switch (GunType)
@@ -113,6 +119,11 @@ namespace ZombieSurvival
       }
     }
 
+    /// <summary>
+    /// The move method sets player position according to the keys, he has pressed. 
+    /// </summary>
+    /// <param name="deltaTime"></param>
+    /// <param name="inputState"></param>
     private void Move(float deltaTime, InputState inputState)
     {
       if (Dead)
