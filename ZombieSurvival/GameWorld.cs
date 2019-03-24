@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Diagnostics;
+using System.Linq;
 using System.Threading.Tasks;
 using SFML.Audio;
 using SFML.Graphics;
@@ -35,7 +36,7 @@ namespace ZombieSurvival
       Random = new Random();
       Font = new Font("../../../Data/freesans.ttf");
     }
-
+    
     public static void Update(float deltaTime, InputState inputState, RenderWindow window)
     {
       Parallel.Invoke(
@@ -62,7 +63,7 @@ namespace ZombieSurvival
     /// <param name="window"></param>
     private static void UpdateProjectiles(RenderWindow window)
     {
-      lock (window)
+      lock (Enemies)
       {
         for (int i = 0; i < Player1.Bullets.Count; i++)
         {
@@ -76,13 +77,13 @@ namespace ZombieSurvival
               || Player1.Bullets[i].Shape.Position.Y < 0
               || Player1.Bullets[i].Shape.Position.Y > window.Size.Y)
           {
-            Player1.Bullets.RemoveAt(i);
+            Player1.Bullets.RemoveElem(i);
             break;
           }
         }
       }
 
-      lock (Player1)
+      lock (Enemies)
       {
         for (int i = 0; i < Player1.Lasers.Count; i++)
         {
@@ -92,13 +93,13 @@ namespace ZombieSurvival
           Player1.Lasers[i].Update();
           if (Player1.Lasers[i].Alpha <= 10)
           {
-            Player1.Lasers.RemoveAt(i);
+            Player1.Lasers.RemoveElem(i);
             break;
           }
         }
       }
 
-      lock (Watch)
+      lock (Enemies)
       {
         for (int i = 0; i < Player1.Bombs.Count; i++)
         {
@@ -106,7 +107,7 @@ namespace ZombieSurvival
 
           if (Player1.Bombs[i].Ticks > 50)
           {
-            Player1.Bombs.RemoveAt(i);
+            Player1.Bombs.RemoveElem(i);
             break;
           }
 
@@ -115,7 +116,7 @@ namespace ZombieSurvival
               || Player1.Bombs[i].Shape.Position.Y < 0
               || Player1.Bombs[i].Shape.Position.Y > window.Size.Y)
           {
-            Player1.Bombs.RemoveAt(i);
+            Player1.Bombs.RemoveElem(i);
             break;
           }
         }
@@ -126,7 +127,7 @@ namespace ZombieSurvival
     /// The UpdateEnemies method updates positions of enemies and checks collissions with player.
     /// </summary>
     private static void UpdateEnemies()
-    {
+    {                                                                   
       lock (Enemies)
       {
         for (int i = 0; i < Enemies.Count; i++)
@@ -138,7 +139,7 @@ namespace ZombieSurvival
 
           if (Enemies[i].Dead)
           {
-            Enemies.RemoveAt(i);
+            Enemies.RemoveElem(i);
             break;
           }
         }
@@ -153,22 +154,15 @@ namespace ZombieSurvival
         {
           if (Player1.Bullets[i] != null && enemy.Sprite.GetGlobalBounds().Intersects(Player1.Bullets[i].Shape.GetGlobalBounds()))
           {
-            Parallel.Invoke(() =>
-            {
-              enemy.Health -= 10;
-            },
+            enemy.Health -= 10;
+            Player1.Bullets.RemoveElem(i);
 
-            () =>
-            {
-              Player1.Bullets.RemoveAt(i);
-            }
-            );
             return true;
           }
         }
       }
 
-      lock (Watch)
+      lock (EnemyStopwatch)
       {
         for (int i = 0; i < Player1.Lasers.Count; i++)
         {
@@ -184,9 +178,12 @@ namespace ZombieSurvival
       {
         for (int i = 0; i < Player1.Bombs.Count; i++)
         {
+          if (i >= Player1.Bombs.Count)
+            break;
+
           if (Player1.Bombs[i].Hit)
           {
-            Player1.Bombs.RemoveAt(i);
+            Player1.Bombs.RemoveElem(i);
             break;
           }
           if (enemy.Sprite.GetGlobalBounds().Intersects(Player1.Bombs[i].Shape.GetGlobalBounds()))
@@ -211,6 +208,15 @@ namespace ZombieSurvival
       DrawEnemies(window);
       DrawLasers(window);
       DrawBombs(window);
+    }
+
+    private static void RemoveElem<T>(this List<T> list, int i)
+    {
+      if (list.Count != 0)
+      {
+        list[i] = list.Last();
+        list.Remove(list.Last());
+      }
     }
 
     private static bool RectanglesOverlap(FloatRect rect1, FloatRect rect2)

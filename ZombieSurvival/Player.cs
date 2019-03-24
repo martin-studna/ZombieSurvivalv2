@@ -265,7 +265,10 @@ namespace ZombieSurvival
       HealthText.DisplayedString = "Health: " + Health;
       SetDirection(inputState.MousePosition);
       Move(deltaTime, inputState);
-      Shoot(inputState);
+      lock (GameWorld.Enemies)
+      {
+        Shoot(inputState);
+      }
       Reload();
     }
 
