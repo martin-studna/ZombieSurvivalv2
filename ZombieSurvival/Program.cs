@@ -9,12 +9,12 @@
 
 namespace ZombieSurvival
 {
-  public class Program
-  {
-    static void Main(string[] args)
+    public class Program
     {
-      var core = new Core();
-      core.Run();
+        static void Main(string[] args)
+        {
+            var core = new Core();
+            core.Run();
+        }
     }
-  }
 }
