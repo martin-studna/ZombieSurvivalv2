@@ -128,7 +128,7 @@ namespace ZombieSurvival
         {
             if (Dead)
                 return;
-            
+
             if (inputState.IsKeyPressed[(int)Keyboard.Key.A] & Position.X > 10)
                 Position.X -= deltaTime * MovementSpeed;
 
@@ -166,10 +166,10 @@ namespace ZombieSurvival
                 var laser = new Laser
                 {
                     Shape =
-          {
-            Position = Center,
-            Rotation = Sprite.Rotation
-          }
+                    {
+                        Position = Center,
+                        Rotation = Sprite.Rotation
+                    }
                 };
                 Lasers.Add(laser);
             }

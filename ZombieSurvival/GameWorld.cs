@@ -166,7 +166,7 @@ namespace ZombieSurvival
             {
                 for (int i = 0; i < Player1.Lasers.Count; i++)
                 {
-                    if (RectanglesOverlap(enemy.Sprite.GetGlobalBounds(), Player1.Lasers[i].Shape.GetGlobalBounds()))
+                    if (Player1.Lasers[i].Shape.GetGlobalBounds().Intersects(enemy.Sprite.GetGlobalBounds()))
                     {
                         enemy.Health -= 40;
                         return true;
