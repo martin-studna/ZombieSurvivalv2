@@ -142,7 +142,6 @@ namespace ZombieSurvival
                 Position.Y += deltaTime * MovementSpeed;
 
             Sprite.Position = Position;
-
         }
 
         private void BulletShoot()
