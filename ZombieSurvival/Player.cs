@@ -129,16 +129,16 @@ namespace ZombieSurvival
             if (Dead)
                 return;
             
-            if (inputState.IsKeyPressed[(int)Keyboard.Key.A] & Position.X >= 0)
+            if (inputState.IsKeyPressed[(int)Keyboard.Key.A] & Position.X > 10)
                 Position.X -= deltaTime * MovementSpeed;
 
-            if (inputState.IsKeyPressed[(int)Keyboard.Key.D] & Position.X <= GameWorld.MapSize.X)
+            if (inputState.IsKeyPressed[(int)Keyboard.Key.D] & Position.X < GameWorld.MapSize.X - 10)
                 Position.X += deltaTime * MovementSpeed;
 
-            if (inputState.IsKeyPressed[(int)Keyboard.Key.W] & Position.Y >= 0)
+            if (inputState.IsKeyPressed[(int)Keyboard.Key.W] & Position.Y > 10)
                 Position.Y -= deltaTime * MovementSpeed;
 
-            if (inputState.IsKeyPressed[(int)Keyboard.Key.S] & Position.Y <= GameWorld.MapSize.Y)
+            if (inputState.IsKeyPressed[(int)Keyboard.Key.S] & Position.Y < GameWorld.MapSize.Y - 10)
                 Position.Y += deltaTime * MovementSpeed;
 
             Sprite.Position = Position;
