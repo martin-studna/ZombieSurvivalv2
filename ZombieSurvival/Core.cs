@@ -167,7 +167,7 @@ namespace ZombieSurvival
                 results.RemoveAt(10);
             }
 
-            using (var sw = new StreamWriter("../../../../score", true))
+            using (var sw = new StreamWriter("../../../../score"))
             {
                 foreach (var result in results)
                 {
