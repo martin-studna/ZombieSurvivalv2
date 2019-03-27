@@ -41,7 +41,7 @@ namespace ZombieSurvival
 
     private static void InitGameWorld(RenderWindow window)
     {
-      GameWorld.MapSize = (Vector2f)window.Size;
+      GameWorld.MapSize = new Vector2f(800,800);
       GameWorld.Player1 = new Player();
       GameWorld.Watch.Start();
       GameWorld.EnemyStopwatch.Start();
