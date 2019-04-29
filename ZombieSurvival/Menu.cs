@@ -43,6 +43,7 @@ namespace ZombieSurvival
         {
             GameWorld.MapSize = new Vector2f(800, 800);
             GameWorld.Player1 = new Player();
+            GameWorld.Enemies.Clear();
             GameWorld.Watch.Start();
             GameWorld.EnemyStopwatch.Start();
             GameWorld.Background = new RectangleShape((Vector2f)window.Size)

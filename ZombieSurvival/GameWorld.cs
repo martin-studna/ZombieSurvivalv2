@@ -41,9 +41,10 @@ namespace ZombieSurvival
         {
             Parallel.Invoke(
             () => { Player1.Update(deltaTime, inputState); },
-            SpawnEnemy,
+            () => { SpawnEnemy(); },
             () => { UpdateProjectiles(window); },
-            UpdateEnemies);
+            () => { UpdateEnemies(); }
+            );
         }
 
         private static void SpawnEnemy()
@@ -164,7 +165,6 @@ namespace ZombieSurvival
 
             lock (EnemyStopwatch)
             {
-                //Console.WriteLine(Player1.Sprite.GetGlobalBounds());
                 for (int i = 0; i < Player1.Lasers.Count; i++)
                 {
                     if (RectanglesOverlap(Player1.Lasers[i].Shape, enemy.Sprite))
