@@ -257,7 +257,7 @@ namespace ZombieSurvival
             };
             if (!satRectangleAndPoints(rect2Size, rect1Points))
                 return false;
-            List<Vector2f > rect2Points = new List<Vector2f>
+            List<Vector2f> rect2Points = new List<Vector2f>
             {
                 rect2BottomLeft,
                 rect2BottomRight,
