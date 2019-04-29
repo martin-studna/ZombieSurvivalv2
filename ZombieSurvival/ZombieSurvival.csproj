@@ -51,4 +51,8 @@
     <Folder Include="libs\" />
   </ItemGroup>
 
+  <ItemGroup>
+    <PackageReference Include="Humper" Version="0.5.8" />
+  </ItemGroup>
+
 </Project>

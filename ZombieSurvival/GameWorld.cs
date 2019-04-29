@@ -164,11 +164,12 @@ namespace ZombieSurvival
 
             lock (EnemyStopwatch)
             {
+                //Console.WriteLine(Player1.Sprite.GetGlobalBounds());
                 for (int i = 0; i < Player1.Lasers.Count; i++)
                 {
-                    if (Player1.Lasers[i].Shape.GetGlobalBounds().Intersects(enemy.Sprite.GetGlobalBounds()))
+                    if (RectanglesOverlap(Player1.Lasers[i].Shape, enemy.Sprite))
                     {
-                        enemy.Health -= 40;
+                        enemy.Health -= 100;
                         return true;
                     }
                 }
@@ -219,15 +220,80 @@ namespace ZombieSurvival
             }
         }
 
-        private static bool RectanglesOverlap(FloatRect rect1, FloatRect rect2)
+        private static bool RectanglesOverlap(RectangleShape shape, Sprite sprite)
         {
-            bool xOverlap = ValueInRange(rect1.Left, rect2.Left, rect2.Left + rect2.Width) ||
-                            ValueInRange(rect2.Left, rect1.Left, rect1.Left + rect1.Width);
+            FloatRect intersection;
+            IntRect firstSubRect, secondSubRect;
 
-            bool yOverlap = ValueInRange(rect1.Top, rect2.Top, rect2.Top + rect2.Height) ||
-                            ValueInRange(rect2.Top, rect1.Top, rect1.Top + rect1.Height);
+            FloatRect rect1Bounds = shape.GetLocalBounds();
+            FloatRect rect2Bounds = (sprite.GetLocalBounds());
+            Vector2f rect1Size = new Vector2f(rect1Bounds.Width, rect1Bounds.Height);
+            Vector2f rect2Size = new Vector2f(rect2Bounds.Width, rect2Bounds.Height);
+            Vector2f rect1TopLeft = sprite.InverseTransform.TransformPoint(shape.Transform.TransformPoint(0, 0));
+            Vector2f rect1TopRight = sprite.InverseTransform.TransformPoint(shape.Transform.TransformPoint(rect1Size.X, 0));
+            Vector2f rect1BottomRight = sprite.InverseTransform.TransformPoint(shape.Transform.TransformPoint(rect1Size));
+            Vector2f rect1BottomLeft = sprite.InverseTransform.TransformPoint(shape.Transform.TransformPoint(0, rect1Size.Y));
+            Vector2f rect2TopLeft = shape.InverseTransform.TransformPoint(sprite.Transform.TransformPoint(0, 0));
+            Vector2f rect2TopRight = shape.InverseTransform.TransformPoint(sprite.Transform.TransformPoint(rect2Size.X, 0));
+            Vector2f rect2BottomRight = shape.InverseTransform.TransformPoint(sprite.Transform.TransformPoint(rect2Size));
+            Vector2f rect2BottomLeft = shape.InverseTransform.TransformPoint(sprite.Transform.TransformPoint(0, rect2Size.Y));
 
-            return xOverlap && yOverlap;
+            bool level1 = (rect1Bounds.Contains(rect2TopLeft.X, rect1TopLeft.Y)) ||
+                   (rect1Bounds.Contains(rect2TopRight.X, rect2TopRight.Y)) ||
+                   (rect1Bounds.Contains(rect2BottomLeft.X, rect2BottomLeft.Y)) ||
+                   (rect1Bounds.Contains(rect2BottomRight.X, rect1BottomRight.Y)) ||
+                   (rect2Bounds.Contains(rect1TopLeft.X, rect1TopLeft.Y)) ||
+                   (rect2Bounds.Contains(rect1TopRight.X, rect1TopRight.Y)) ||
+                   (rect2Bounds.Contains(rect1BottomLeft.X, rect1BottomLeft.Y)) ||
+                   (rect2Bounds.Contains(rect1BottomRight.X, rect1BottomRight.Y));
+
+
+            List<Vector2f> rect1Points = new List<Vector2f>
+            {
+                rect1BottomLeft,
+                rect1BottomRight,
+                rect1TopRight,
+                rect1TopLeft,
+            };
+            if (!satRectangleAndPoints(rect2Size, rect1Points))
+                return false;
+            List<Vector2f > rect2Points = new List<Vector2f>
+            {
+                rect2BottomLeft,
+                rect2BottomRight,
+                rect2TopRight,
+                rect2TopLeft,
+            };
+            return satRectangleAndPoints(rect1Size, rect2Points);
+
+
+            //return xOverlap && yOverlap;
+        }
+
+        private static bool satRectangleAndPoints(Vector2f rectangleSize, List<Vector2f> points)
+        {
+            bool allPointsLeftOfRectangle = true;
+            bool allPointsRightOfRectangle = true;
+            bool allPointsAboveRectangle = true;
+            bool allPointsBelowRectangle = true;
+            foreach (var point in points)
+            {
+                if (point.X >= 0)
+                    allPointsLeftOfRectangle = false;
+                if (point.X <= rectangleSize.X)
+                    allPointsRightOfRectangle = false;
+                if (point.Y >= 0)
+                    allPointsAboveRectangle = false;
+                if (point.Y <= rectangleSize.Y)
+                    allPointsBelowRectangle = false;
+            }
+            return !(allPointsLeftOfRectangle || allPointsRightOfRectangle || allPointsAboveRectangle || allPointsBelowRectangle);
+        }
+
+        private static float ToRadians(this float angle)
+        {
+            angle %= 360;
+            return (float)(Math.PI * angle / 180.0);
         }
 
         private static bool ValueInRange(float value, float min, float max)

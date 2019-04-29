@@ -1,6 +1,6 @@
 Zombie Survival is simple shooter game written in C#.
-It has been created as a school project for a
-subject in Mathematics and Physics faculty, Charles University.
+It has been created as a credit project for a
+course Advanced programming in .NET in Mathematics and Physics faculty, Charles University.
 Goal of the game is to kill as many zombies as possible and
 survive for the longest period. You can control player's movements
 by A, W, S, D keys, you aim at zombies with mouse cursor, shoot
