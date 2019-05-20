@@ -25,10 +25,10 @@ namespace ZombieSurvival
             Info = new RectangleShape(new Vector2f(300, 50)) { FillColor = Color.White };
             Score = new RectangleShape(new Vector2f(300, 50)) { FillColor = Color.White };
             Exit = new RectangleShape(new Vector2f(300, 50)) { FillColor = Color.White };
-            StartText = new Text("Start", new Font("../../../Data/freesans.ttf"), 24) { Color = Color.Black };
-            InfoText = new Text("Info", new Font("../../../Data/freesans.ttf"), 24) { Color = Color.Black };
-            ScoreText = new Text("Score", new Font("../../../Data/freesans.ttf"), 24) { Color = Color.Black };
-            ExitText = new Text("Exit", new Font("../../../Data/freesans.ttf"), 24) { Color = Color.Black };
+            StartText = new Text("Start", new Font("../../../../Data/freesans.ttf"), 24) { Color = Color.Black };
+            InfoText = new Text("Info", new Font("../../../../Data/freesans.ttf"), 24) { Color = Color.Black };
+            ScoreText = new Text("Score", new Font("../../../../Data/freesans.ttf"), 24) { Color = Color.Black };
+            ExitText = new Text("Exit", new Font("../../../../Data/freesans.ttf"), 24) { Color = Color.Black };
         }
 
         public static void Update(float deltaTime, InputState inputState, RenderWindow window, ref Mode mode)
@@ -48,7 +48,7 @@ namespace ZombieSurvival
             GameWorld.EnemyStopwatch.Start();
             GameWorld.Background = new RectangleShape((Vector2f)window.Size)
             {
-                Texture = new Texture("../../../Data/grass.png") { Repeated = true },
+                Texture = new Texture("../../../../Data/grass.png") { Repeated = true },
                 Position = new Vector2f(0, 0),
                 TextureRect = new IntRect(0, 0, 500, 500)
             };

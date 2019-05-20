@@ -18,10 +18,10 @@ namespace ZombieSurvival
 
         public Enemy()
         {
-            var soundBuffer = new SoundBuffer("../../../Data/zombie-hurt.wav");
+            var soundBuffer = new SoundBuffer("../../../../Data/zombie-hurt.wav");
             HurtSound = new Sound(soundBuffer);
             SetInitialPosition();
-            Sprite = new Sprite(new Texture("../../../Data/zombie.png")) { Position = Position };
+            Sprite = new Sprite(new Texture("../../../../Data/zombie.png")) { Position = Position };
             SetType();
             Collision = false;
         }

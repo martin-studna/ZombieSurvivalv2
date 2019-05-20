@@ -17,9 +17,9 @@ namespace ZombieSurvival
         static SetName()
         {
             TextBox = new RectangleShape(new Vector2f(300, 50)) { FillColor = Color.White };
-            InputText = new Text("", new Font("../../../Data/freesans.ttf"), 24) { Color = Color.Black };
+            InputText = new Text("", new Font("../../../../Data/freesans.ttf"), 24) { Color = Color.Black };
             Ok = new RectangleShape(new Vector2f(300, 50)) { FillColor = Color.Magenta };
-            OkText = new Text("Ok", new Font("../../../Data/freesans.ttf"), 24) { Color = Color.Black };
+            OkText = new Text("Ok", new Font("../../../../Data/freesans.ttf"), 24) { Color = Color.Black };
         }
 
         public static void Update(float deltaTime, RenderWindow window, InputState inputState, ref Mode mode)

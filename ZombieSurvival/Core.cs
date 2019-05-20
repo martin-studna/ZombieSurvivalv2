@@ -213,7 +213,7 @@ namespace ZombieSurvival
             Menu.Background = new RectangleShape((Vector2f)_window.Size)
             {
                 Position = new Vector2f(0, 0),
-                Texture = new Texture("../../../Data/menu.png")
+                Texture = new Texture("../../../../Data/menu.png")
             };
 
             Menu.Start.Position = new Vector2f(_window.Size.X / 2 - Menu.Start.Size.X / 2, _window.Size.Y - (_window.Size.Y - 200));

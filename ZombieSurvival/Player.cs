@@ -65,13 +65,13 @@ namespace ZombieSurvival
             Lasers = new List<Laser>();
             Bombs = new List<Bomb>();
 
-            ShotSound = new Sound(new SoundBuffer("../../../Data/gunshot.wav"));
-            HurtSound = new Sound(new SoundBuffer("../../../Data/hurt.wav"));
-            LaserSound = new Sound(new SoundBuffer("../../../Data/laser.wav"));
-            BombSound = new Sound(new SoundBuffer("../../../Data/bomb.wav"));
+            ShotSound = new Sound(new SoundBuffer("../../../../Data/gunshot.wav"));
+            HurtSound = new Sound(new SoundBuffer("../../../../Data/hurt.wav"));
+            LaserSound = new Sound(new SoundBuffer("../../../../Data/laser.wav"));
+            BombSound = new Sound(new SoundBuffer("../../../../Data/bomb.wav"));
 
             Position = new Vector2f(200, 200);
-            Sprite = new Sprite { Position = Position, Texture = new Texture($"../../../Data/player.png") };
+            Sprite = new Sprite { Position = Position, Texture = new Texture($"../../../../Data/player.png") };
 
             Health = 100;
 

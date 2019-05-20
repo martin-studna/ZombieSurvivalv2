@@ -34,7 +34,7 @@ namespace ZombieSurvival
             Enemies = new List<Enemy>();
             EnemyStopwatch = new Stopwatch();
             Random = new Random();
-            Font = new Font("../../../Data/freesans.ttf");
+            Font = new Font("../../../../Data/freesans.ttf");
         }
 
         public static void Update(float deltaTime, InputState inputState, RenderWindow window)
@@ -222,9 +222,6 @@ namespace ZombieSurvival
 
         private static bool RectanglesOverlap(RectangleShape shape, Sprite sprite)
         {
-            FloatRect intersection;
-            IntRect firstSubRect, secondSubRect;
-
             FloatRect rect1Bounds = shape.GetLocalBounds();
             FloatRect rect2Bounds = (sprite.GetLocalBounds());
             Vector2f rect1Size = new Vector2f(rect1Bounds.Width, rect1Bounds.Height);

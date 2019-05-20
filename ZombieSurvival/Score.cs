@@ -18,7 +18,7 @@ namespace ZombieSurvival
         static Score()
         {
             Exit = new RectangleShape(new Vector2f(300, 50)) { FillColor = Color.White };
-            ExitText = new Text("Menu", new Font("../../../Data/freesans.ttf"), 24) { Color = Color.Black };
+            ExitText = new Text("Menu", new Font("../../../../Data/freesans.ttf"), 24) { Color = Color.Black };
             Results = new List<Text>();
         }
 

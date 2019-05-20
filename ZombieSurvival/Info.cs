@@ -17,10 +17,10 @@ namespace ZombieSurvival
         static Info()
         {
             Exit = new RectangleShape(new Vector2f(300, 50)) { FillColor = Color.White };
-            ExitText = new Text("Menu", new Font("../../../Data/freesans.ttf"), 24) { Color = Color.Black };
-            var streamReader = new StreamReader("../../../Data/info");
+            ExitText = new Text("Menu", new Font("../../../../Data/freesans.ttf"), 24) { Color = Color.Black };
+            var streamReader = new StreamReader("../../../../Data/info");
             Content = streamReader.ReadToEnd();
-            InfoText = new Text(Content, new Font("../../../Data/freesans.ttf"), 24) { Color = Color.White };
+            InfoText = new Text(Content, new Font("../../../../Data/freesans.ttf"), 24) { Color = Color.White };
         }
 
         public static void Update(float deltaTime, RenderWindow window, InputState inputState, ref Mode mode)
